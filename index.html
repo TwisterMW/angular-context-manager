@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" data-ng-app="App">
+<head>
+	<meta charset="UTF-8">
+	<title>Session context concept test</title>
+	<!-- bower:css -->
+	<link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.min.css" />
+	<!-- endbower -->
+</head>
+<body data-ng-controller="mainController as vm">
+	<div class="container">
+		<div class="row"><br /><br />
+			<div class="col-md-12 text-center">
+				<h1>Add an item</h1>
+				<div class="row"><br />
+					<div class="col-md-4">
+						<label class="label-control">Object name: </label>
+						<input data-ng-model="vm.objName" class="form-control" />
+					</div>
+					<div class="col-md-4">
+						<label class="label-control">Object property name: </label>
+						<input data-ng-model="vm.objPropName" class="form-control" />
+					</div>
+					<div class="col-md-4">
+						<label class="label-control">Object property value: </label>
+						<input data-ng-model="vm.objPropValue" class="form-control" />
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-primary" data-ng-click="vm.addItem(vm.objName, vm.objPropName, vm.objPropValue)">
+							Store item
+						</button>
+					</div>
+				</div>
+			</div>
+		</div><br /><br />
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h1>Get an item</h1>
+				<div class="row"><br />
+					<div class="col-md-4 col-md-offset-4">
+						<label class="label-control">Object name: (output by console)</label>
+						<input data-ng-model="vm.objName2" class="form-control" />
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-primary" data-ng-click="vm.getItem(vm.objName2)">Get item</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- bower:js -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+	<script src="bower_components/bootstrap-css/js/bootstrap.min.js"></script>
+	<!-- endbower -->
+	<!-- include: "type": "js", "files": "app/**/**/*.js" -->
+	<script src="app/app.js"></script>
+	<script src="app/components/contextManager/contextManager-service.js"></script>
+	<script src="app/components/main/main-controller.js"></script>
+	<!-- /include -->
+</body>
+</html>
