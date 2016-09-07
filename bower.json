@@ -1,6 +1,6 @@
 {
   "name": "angular-context-data",
-  "description": "AngularJS Context data manager",
+  "description": "AngularJS Factory for managing all context stored on sessionStorage",
   "main": "index.html",
   "authors": [
     "TwisterMW <marc.hernandez@twiscript.com>"
