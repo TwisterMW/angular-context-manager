@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TwisterMW/angular-context-manager.svg?branch=master)](https://travis-ci.org/TwisterMW/angular-context-manager)
+
 # AngularJS Seed Project
 AngularJS Factory for managing all context stored on sessionStorage
 
