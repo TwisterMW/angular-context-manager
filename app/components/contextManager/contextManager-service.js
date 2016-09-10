@@ -37,12 +37,16 @@
 		}
 
 		function getItem(item){
-			if(this.debug) $log.info(STR_OUTPUT + "Value of item: " + window.sessionStorage.getItem(item));
+			if(this.debug){
+				$log.info(STR_OUTPUT + "Value of item: " + window.sessionStorage.getItem(item));
+			}
 
 			if(JSON.parse(window.sessionStorage.getItem(item)) !== null){
 				return JSON.parse(window.sessionStorage.getItem(item));
 			}else{
-				if(this.debug) $log.warn(STR_OUTPUT + "You're trying to get non existing object! Obj: " + item);
+				if(this.debug){
+					$log.warn(STR_OUTPUT + "You're trying to get non existing object! Obj: " + item);
+				}
 			}
 		}
 
@@ -63,7 +67,7 @@
 		function getValue(item, propName){
 			if(JSON.parse(window.sessionStorage.getItem(item)) !== null){
 				if(JSON.parse(window.sessionStorage.getItem(item))[propName] !== undefined){
-					if(this.debug) $log.info(STR_OUTPUT + "Value of item: " + window.sessionStorage.getItem(item)[propName]);
+					if(this.debug) $log.info(STR_OUTPUT + "Value of item: " + JSON.parse(window.sessionStorage.getItem(item))[propName]);
 
 					return JSON.parse(window.sessionStorage.getItem(item))[propName];
 				}else{

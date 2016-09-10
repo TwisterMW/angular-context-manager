@@ -32,6 +32,14 @@ module.exports = function(grunt){
                     base: '.',
                     open: true
                 }
+            },
+            coverage:{
+                options: {
+                    port: 9001,
+                    base: 'coverage/report/',
+                    open: true,
+                    keepalive: true
+                }
             }
         },
 
@@ -61,6 +69,7 @@ module.exports = function(grunt){
             }
         },
 
+
     });
 
     // Tasks loading
@@ -81,6 +90,10 @@ module.exports = function(grunt){
         'wiredep', 'includeSource'
     ]);
 
+    // Unit Testing related task
+    grunt.registerTask('test:unit', ['karma']);
+    grunt.registerTask('test:coverage', ['clean', 'karma', 'connect:coverage']);
+
     // Developer related tasks
     // ===============================================================================================
 
@@ -88,8 +101,5 @@ module.exports = function(grunt){
     grunt.registerTask('server', [
         'depcompile', 'connect:dev', 'jslinter'
     ]);
-
-    // $ grunt test (Launches Karma+Jasmine and Istanbul code coverage generation)
-    grunt.registerTask('test', ['clean', 'karma']);
 
 };
