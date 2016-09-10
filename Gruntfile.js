@@ -1,6 +1,9 @@
 module.exports = function(grunt){
 
 	grunt.initConfig({
+        // Cleans directory
+        clean: ['coverage/'],
+
         // Automatically includes bower dependencies on index.html
         wiredep: {
             task: {
@@ -49,12 +52,22 @@ module.exports = function(grunt){
                     'index.html': 'index.html'
                 }
             }
-        }
+        },
+
+        // Task for launching karma pointing config file for execute the Unit Tests (Jasmine)
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
+            }
+        },
+
     });
 
     // Tasks loading
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-wiredep');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-include-source');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-connect');
@@ -63,16 +76,20 @@ module.exports = function(grunt){
     // Task for watching JS errors during development (Errors detected will be outputed on console)
     grunt.registerTask('jslinter', ['watch:js']);
 
+    // $ grunt depcompile (Wire all deps)
+    grunt.registerTask('depcompile', [
+        'wiredep', 'includeSource'
+    ]);
+
     // Developer related tasks
     // ===============================================================================================
 
     // $ grunt server (Launches development server)
     grunt.registerTask('server', [
-        'wiredep', 'includeSource', 'connect:dev', 'jslinter'
+        'depcompile', 'connect:dev', 'jslinter'
     ]);
 
-    // $ grunt depcompile (Wire all deps)
-    grunt.registerTask('depcompile', [
-        'wiredep', 'includeSource'
-    ]);
+    // $ grunt test (Launches Karma+Jasmine and Istanbul code coverage generation)
+    grunt.registerTask('test', ['clean', 'karma']);
+
 };
