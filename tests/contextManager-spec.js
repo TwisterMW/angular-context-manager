@@ -3,12 +3,13 @@
 
 	describe('Test suite for context manager', function(){
 
-		var scope, mainController, $contextManager;
+		var scope, mainController, $contextManager, $log;
 
 		beforeEach(module('App'));
 
-		beforeEach(inject(function($rootScope, $controller, $injector){
+		beforeEach(inject(function($rootScope, $controller, $injector, _$log_){
 			scope = $rootScope.$new();
+			$log = _$log_;
 
 			$contextManager = $injector.get('contextManager');
 
@@ -28,11 +29,15 @@
 
 		describe('When we call add item function', function(){
 			it('it should be properly stored as stringified JSON object', function(){
+				spyOn($log, 'info');
+
 				mainController.addItem('context', 'user', 'Marc Hernández');
 				
 				expect(window.sessionStorage.getItem('context')).toEqual(JSON.stringify({
 					'user': 'Marc Hernández'
 				}));
+
+				expect($log.info).toHaveBeenCalledWith('SStorage Out: Value of item: {"user":"Marc Hernández"}');
 
 				mainController.clearAllStorage();
 
@@ -47,6 +52,18 @@
 				var item = mainController.getItem('context');
 
 				expect(JSON.stringify(item)).toEqual(JSON.stringify({ 'user': 'Marc Hernández' }));
+
+				mainController.clearAllStorage();
+
+				expect(JSON.stringify(window.sessionStorage)).toEqual('{}');
+			});
+
+			it('should throw an error in case of non existing item and debug mode is enabled', function(){
+				spyOn($log, 'warn');
+
+				var item = mainController.getItem('context');
+
+				expect($log.warn).toHaveBeenCalledWith("SStorage Out: You're trying to get non existing object! Obj: context");
 			});
 		});
 
@@ -65,6 +82,20 @@
 				mainController.clearAllStorage();
 
 				expect(JSON.stringify(window.sessionStorage)).toEqual('{}');
+			});
+		});
+
+		describe('When we try to get an existing property value from existing object', function(){
+			it('should return proper value of the property and ouput $log by console if debug mode is enabled', function(){
+				var item = JSON.stringify({ 'user': 'Marc Hernández' });
+
+				window.sessionStorage.setItem('context', item);
+
+				spyOn($log, 'info');
+				var prop = mainController.getItemProp('context', 'user');
+
+				expect(prop).toEqual('Marc Hernández');
+				expect($log.info).toHaveBeenCalledWith("SStorage Out: Value of item: Marc Hernández");
 			});
 		});
 
@@ -98,7 +129,7 @@
 			});
 		});
 
-		describe('When we try to a property of non existing object', function(){
+		describe('When we try to get a property of non existing object', function(){
 			it('should not retrieve the value of property', function(){
 				var item = JSON.stringify({ 'user': 'Marc Hernández' });
 
@@ -160,6 +191,10 @@
 				mainController.storeEntireObject('context', userObj);
 
 				expect(window.sessionStorage.getItem('context')).toEqual(JSON.stringify(userObj));
+
+				mainController.clearAllStorage();
+
+				expect(JSON.stringify(window.sessionStorage)).toEqual('{}');
 			});
 		});
 
